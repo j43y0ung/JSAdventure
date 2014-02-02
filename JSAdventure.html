@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+	<head>
+		<title>JS-Adventure</title>
+		<script type="text/javascript" src="ajax_min.js"></script>
+		<script type="text/javascript">
+		function size(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+			var textarea;
+			var rpgjson;
+			var current;
+			var btns;
+			function update(){
+				textarea.value+="\n"+rpgjson[current]["scenario"];
+				if (size(rpgjson[current].choices)<4)
+				{
+				  for (var i=size(rpgjson[current].choices);i<=3;i++)
+				  {
+				    btns[i].disabled=true;
+				   }
+				 }
+				  
+			}
+			function startGame(file,scene){
+				textarea.value+="Loading "+file+"...";
+			_ajax(file,'get',function(req){
+				rpgjson=eval(req.responseText);
+				textarea.value+="Success!";
+			},
+			function(stat,stattxt){
+				textarea.value+="Error: "+stat+" "+stattxt;
+			},null);
+			/*rpgjson={
+	"s1":{
+		"scenario":"This is a test. \nGAME OVER\na: Start Over",
+		"choices":{"a":"s1",}, 
+	},
+};*/
+
+			
+			current=scene;
+			update();
+			}
+			function init(){
+				textarea=document.getElementById('ta1');
+				btns=new Array(document.getElementById('a'),
+				document.getElementById('b'),
+				document.getElementById('c'),
+				document.getElementById('d'));
+				startGame('example.json','s1');
+			}
+			function btnclicked(choice){
+				current=rpgjson[current]["choices"][choice];
+				update();
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		Console:<br>
+		<textarea id="ta1" rows="30" cols="40" readonly="readonly"></textarea><br>
+		<input id="a" type="button" onclick="btnclicked('a')" value="a" />
+		<input id="b" type="button" onclick="btnclicked('b')" value="b" />
+		<input id="c" type="button" onclick="btnclicked('c')" value="c" />
+		<input id="d" type="button" onclick="btnclicked('d')" value="d" />
+	</body>
+</html>

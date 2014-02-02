@@ -1,0 +1,6 @@
+{
+	"s1":{
+		"scenario":"This is a test. \nGAME OVER\na: Start Over",
+		"choices":{"a":"s1"}
+	}
+}
