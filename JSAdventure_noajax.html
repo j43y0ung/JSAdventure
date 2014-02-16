@@ -16,6 +16,10 @@
 			var btns;
 			function update(){
 				textarea.value+=rpgjson[current]["scenario"]+"\n";
+				for (i in btns)
+				{
+					btns[i].disabled=false;
+				}
 				if (size(rpgjson[current].choices)<4)
 				{
 				  for (var i=size(rpgjson[current].choices);i<=3;i++)
@@ -26,11 +30,46 @@
 				  
 			}
 			function startGame(scene){
-			rpgjson={
+			/*rpgjson={
 	"s1":{
 		"scenario":"This is a test. \nGAME OVER\na: Start Over",
 		"choices":{"a":"s1",}, 
 	},
+};*/
+rpgjson={
+	"s1":{
+		"scenario":"You are standing in front of four doorways. Which one do you take?\nA:1\nB:2\nC:3\nD:4",
+		"choices":{"a":"s2",
+					"b":"s3",
+					"c":"s4",
+					"d":"s5"},
+	},
+	"s2":{
+		"scenario":"You see a dead end. What do you do?\nA:Stay\nB:Go back",
+		"choices":{"a":"s2",
+					"b":"s1"}, 
+	}, 
+	"s3":{
+		"scenario":"You see a monster. He looks hungry. What do you do?\nA:Run away\nB:Throw him a cookie\nC:Stay\nD:Pet him",
+		"choices":{"a":"s1",
+					"b":"s3",
+					"c":"s3",
+					"d":"s6",}, 
+	},
+	"s4":{
+		"scenario":"You see an abyss. There is howling. What do you do?\nA:Jump\nB:Run away\nC:Throw your shirt down the abyss",
+		"choices":{"a":"s6",
+					"b":"s1",
+					"c":"s4",}, 
+	},
+	"s5":{
+		"scenario":"You see a cookie. What do you do?\nA:Nothing\nB:Eat it\nC:Throw a cookie at it",
+		"choices":{"a":"s5","b":"s6","c":"s5",}, 
+	},
+	"s6":{
+		"scenario":"You die for unfortunate reasons.\n GAME OVER\nA:Respawn",
+		"choices":{"a":"s1"}
+	}
 };
 			
 			current=scene;
@@ -50,12 +89,13 @@
 			}
 		</script>
 	</head>
-	<body onload="init()">
+	<body onload="init();">
 		Console:<br>
 		<textarea id="ta1" rows="30" cols="40" readonly="readonly"></textarea><br>
-		<input id="a" type="button" onclick="btnclicked('a')" value="a" />
-		<input id="b" type="button" onclick="btnclicked('b')" value="b" />
-		<input id="c" type="button" onclick="btnclicked('c')" value="c" />
-		<input id="d" type="button" onclick="btnclicked('d')" value="d" />
+		<input id="a" type="button" onclick="btnclicked('a')" value="a">
+		<input id="b" type="button" onclick="btnclicked('b')" value="b">
+		<input id="c" type="button" onclick="btnclicked('c')" value="c">
+		<input id="d" type="button" onclick="btnclicked('d')" value="d">
+		<input type="button" onclick="textarea.value='';" value="Clear">
 	</body>
 </html>
